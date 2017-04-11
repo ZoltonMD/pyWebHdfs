@@ -154,6 +154,24 @@ class WebHdfs():
         js = json.loads(response)
         return js['boolean']
 
+    def delete(self, path, recursive="false"):
+        """
+
+        Args:
+            path: The path to file or directory we want delete.
+
+        Returns:
+        curl -i -X DELETE "http://<host>:<port>/webhdfs/v1/<path>?op=DELETE
+                              [&recursive=<true|false>]"
+        """
+        url = '%s%s?user.name=%s&op=DELETE&recursive=%s' % (self.prefix,
+                                                            path,
+                                                            self.user,
+                                                            recursive)
+        response = request.push(self.host, self.port, 'DELETE', url)
+        js = json.loads(response)
+        return js['boolean']
+
     def exists(self, path):
         """Check existence of a file or directory in the specified path.
 
